@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head><meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="profile" href="//gmpg.org/xfn/11">
+    <title>🛠️AI Infra Testing②: How to draft a good bug report for open-source community? – shaoyuyang</title>
+<meta name="robots" content="max-image-preview:large">
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+<link rel="alternate" type="application/rss+xml" title="shaoyuyang » Feed" href="https://shaoyuyoung.github.io/feed/">
+<link rel="alternate" type="application/rss+xml" title="shaoyuyang » 评论 Feed" href="https://shaoyuyoung.github.io/comments/feed/">
+<script type="text/javascript">
+/* <![CDATA[ */
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/16.0.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/16.0.1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/shaoyuyoung.github.io\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.8.3"}};
+/*! This file is auto-generated */
+!function(s,n){var o,i,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),a=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===a[t]})}function u(e,t){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);for(var n=e.getImageData(16,16,1,1),a=0;a<n.data.length;a++)if(0!==n.data[a])return!1;return!0}function f(e,t,n,a){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\udde8\ud83c\uddf6","\ud83c\udde8\u200b\ud83c\uddf6")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!a(e,"\ud83e\udedf")}return!1}function g(e,t,n,a){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):s.createElement("canvas"),o=r.getContext("2d",{willReadFrequently:!0}),i=(o.textBaseline="top",o.font="600 32px Arial",{});return e.forEach(function(e){i[e]=t(o,e,n,a)}),i}function t(e){var t=s.createElement("script");t.src=e,t.defer=!0,s.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",i=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){s.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+g.toString()+"("+[JSON.stringify(i),f.toString(),p.toString(),u.toString()].join(",")+"));",a=new Blob([e],{type:"text/javascript"}),r=new Worker(URL.createObjectURL(a),{name:"wpTestEmojiSupports"});return void(r.onmessage=function(e){c(n=e.data),r.terminate(),t(n)})}catch(e){}c(n=g(i,f,p,u))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+/* ]]> */
+</script>
+<style id="wp-emoji-styles-inline-css" type="text/css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<style id="classic-theme-styles-inline-css" type="text/css">
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id="global-styles-inline-css" type="text/css">
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--cornflower-blue: #7066ff;--wp--preset--color--emerald: #54ca95;--wp--preset--color--shakespeare: #55c0ce;--wp--preset--color--persimmon: #fc6158;--wp--preset--color--azure-radiance: #007ced;--wp--preset--color--neon-carrot: #ff9638;--wp--preset--color--burnt-sienna: #ef5555;--wp--preset--color--blue-bayoux: #4a6583;--wp--preset--color--cerulean: #0099e5;--wp--preset--color--saffron: #f8b732;--wp--preset--color--java: #10b9b2;--wp--preset--color--carnation: #ef5565;--wp--preset--color--very-light-gray: #f5f5f5;--wp--preset--color--light-gray: #e5e5e5;--wp--preset--color--dark-gray: #555;--wp--preset--color--very-dark-gray: #333;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel="stylesheet" id="font-awesome-css" href="https://shaoyuyoung.github.io/wp-content/plugins/elementor/assets/lib/font-awesome/css/font-awesome.min.css?ver=4.7.0" type="text/css" media="all">
+<link rel="stylesheet" id="elementor-frontend-css" href="https://shaoyuyoung.github.io/wp-content/plugins/elementor/assets/css/frontend.min.css?ver=3.23.3" type="text/css" media="all">
+<style id="elementor-frontend-inline-css" type="text/css">
+.elementor-kit-13{--e-global-color-primary:#6EC1E4;--e-global-color-secondary:#54595F;--e-global-color-text:#7A7A7A;--e-global-color-accent:#61CE70;--e-global-typography-primary-font-family:"Roboto";--e-global-typography-primary-font-weight:600;--e-global-typography-secondary-font-family:"Roboto Slab";--e-global-typography-secondary-font-weight:400;--e-global-typography-text-font-family:"Roboto";--e-global-typography-text-font-weight:400;--e-global-typography-accent-font-family:"Roboto";--e-global-typography-accent-font-weight:500;}.elementor-section.elementor-section-boxed > .elementor-container{max-width:1140px;}.e-con{--container-max-width:1140px;}{}h1.entry-title{display:var(--page-title-display);}.elementor-kit-13 e-page-transition{background-color:#FFBC7D;}@media(max-width:1024px){.elementor-section.elementor-section-boxed > .elementor-container{max-width:1024px;}.e-con{--container-max-width:1024px;}}@media(max-width:767px){.elementor-section.elementor-section-boxed > .elementor-container{max-width:767px;}.e-con{--container-max-width:767px;}}
+.elementor-widget-heading .elementor-heading-title{color:var( --e-global-color-primary );font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-image .widget-image-caption{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-text-editor{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-text-editor.elementor-drop-cap-view-stacked .elementor-drop-cap{background-color:var( --e-global-color-primary );}.elementor-widget-text-editor.elementor-drop-cap-view-framed .elementor-drop-cap, .elementor-widget-text-editor.elementor-drop-cap-view-default .elementor-drop-cap{color:var( --e-global-color-primary );border-color:var( --e-global-color-primary );}.elementor-widget-button .elementor-button{font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );background-color:var( --e-global-color-accent );}.elementor-widget-divider{--divider-color:var( --e-global-color-secondary );}.elementor-widget-divider .elementor-divider__text{color:var( --e-global-color-secondary );font-family:var( --e-global-typography-secondary-font-family ), Sans-serif;font-weight:var( --e-global-typography-secondary-font-weight );}.elementor-widget-divider.elementor-view-stacked .elementor-icon{background-color:var( --e-global-color-secondary );}.elementor-widget-divider.elementor-view-framed .elementor-icon, .elementor-widget-divider.elementor-view-default .elementor-icon{color:var( --e-global-color-secondary );border-color:var( --e-global-color-secondary );}.elementor-widget-divider.elementor-view-framed .elementor-icon, .elementor-widget-divider.elementor-view-default .elementor-icon svg{fill:var( --e-global-color-secondary );}.elementor-widget-image-box .elementor-image-box-title{color:var( --e-global-color-primary );font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-image-box .elementor-image-box-description{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-icon.elementor-view-stacked .elementor-icon{background-color:var( --e-global-color-primary );}.elementor-widget-icon.elementor-view-framed .elementor-icon, .elementor-widget-icon.elementor-view-default .elementor-icon{color:var( --e-global-color-primary );border-color:var( --e-global-color-primary );}.elementor-widget-icon.elementor-view-framed .elementor-icon, .elementor-widget-icon.elementor-view-default .elementor-icon svg{fill:var( --e-global-color-primary );}.elementor-widget-icon-box.elementor-view-stacked .elementor-icon{background-color:var( --e-global-color-primary );}.elementor-widget-icon-box.elementor-view-framed .elementor-icon, .elementor-widget-icon-box.elementor-view-default .elementor-icon{fill:var( --e-global-color-primary );color:var( --e-global-color-primary );border-color:var( --e-global-color-primary );}.elementor-widget-icon-box .elementor-icon-box-title{color:var( --e-global-color-primary );}.elementor-widget-icon-box .elementor-icon-box-title, .elementor-widget-icon-box .elementor-icon-box-title a{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-icon-box .elementor-icon-box-description{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-star-rating .elementor-star-rating__title{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-image-gallery .gallery-item .gallery-caption{font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );}.elementor-widget-icon-list .elementor-icon-list-item:not(:last-child):after{border-color:var( --e-global-color-text );}.elementor-widget-icon-list .elementor-icon-list-icon i{color:var( --e-global-color-primary );}.elementor-widget-icon-list .elementor-icon-list-icon svg{fill:var( --e-global-color-primary );}.elementor-widget-icon-list .elementor-icon-list-item > .elementor-icon-list-text, .elementor-widget-icon-list .elementor-icon-list-item > a{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-icon-list .elementor-icon-list-text{color:var( --e-global-color-secondary );}.elementor-widget-counter .elementor-counter-number-wrapper{color:var( --e-global-color-primary );font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-counter .elementor-counter-title{color:var( --e-global-color-secondary );font-family:var( --e-global-typography-secondary-font-family ), Sans-serif;font-weight:var( --e-global-typography-secondary-font-weight );}.elementor-widget-progress .elementor-progress-wrapper .elementor-progress-bar{background-color:var( --e-global-color-primary );}.elementor-widget-progress .elementor-title{color:var( --e-global-color-primary );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-testimonial .elementor-testimonial-content{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-testimonial .elementor-testimonial-name{color:var( --e-global-color-primary );font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-testimonial .elementor-testimonial-job{color:var( --e-global-color-secondary );font-family:var( --e-global-typography-secondary-font-family ), Sans-serif;font-weight:var( --e-global-typography-secondary-font-weight );}.elementor-widget-tabs .elementor-tab-title, .elementor-widget-tabs .elementor-tab-title a{color:var( --e-global-color-primary );}.elementor-widget-tabs .elementor-tab-title.elementor-active,
+					 .elementor-widget-tabs .elementor-tab-title.elementor-active a{color:var( --e-global-color-accent );}.elementor-widget-tabs .elementor-tab-title{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-tabs .elementor-tab-content{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-accordion .elementor-accordion-icon, .elementor-widget-accordion .elementor-accordion-title{color:var( --e-global-color-primary );}.elementor-widget-accordion .elementor-accordion-icon svg{fill:var( --e-global-color-primary );}.elementor-widget-accordion .elementor-active .elementor-accordion-icon, .elementor-widget-accordion .elementor-active .elementor-accordion-title{color:var( --e-global-color-accent );}.elementor-widget-accordion .elementor-active .elementor-accordion-icon svg{fill:var( --e-global-color-accent );}.elementor-widget-accordion .elementor-accordion-title{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-accordion .elementor-tab-content{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-toggle .elementor-toggle-title, .elementor-widget-toggle .elementor-toggle-icon{color:var( --e-global-color-primary );}.elementor-widget-toggle .elementor-toggle-icon svg{fill:var( --e-global-color-primary );}.elementor-widget-toggle .elementor-tab-title.elementor-active a, .elementor-widget-toggle .elementor-tab-title.elementor-active .elementor-toggle-icon{color:var( --e-global-color-accent );}.elementor-widget-toggle .elementor-toggle-title{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-toggle .elementor-tab-content{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-alert .elementor-alert-title{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-alert .elementor-alert-description{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-text-path{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-theme-site-logo .widget-image-caption{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-theme-site-title .elementor-heading-title{color:var( --e-global-color-primary );font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-theme-page-title .elementor-heading-title{color:var( --e-global-color-primary );font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-theme-post-title .elementor-heading-title{color:var( --e-global-color-primary );font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-theme-post-excerpt .elementor-widget-container{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-theme-post-content{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-theme-post-featured-image .widget-image-caption{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-theme-archive-title .elementor-heading-title{color:var( --e-global-color-primary );font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-archive-posts .elementor-post__title, .elementor-widget-archive-posts .elementor-post__title a{color:var( --e-global-color-secondary );font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-archive-posts .elementor-post__meta-data{font-family:var( --e-global-typography-secondary-font-family ), Sans-serif;font-weight:var( --e-global-typography-secondary-font-weight );}.elementor-widget-archive-posts .elementor-post__excerpt p{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-archive-posts .elementor-post__read-more{color:var( --e-global-color-accent );}.elementor-widget-archive-posts a.elementor-post__read-more{font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );}.elementor-widget-archive-posts .elementor-post__card .elementor-post__badge{background-color:var( --e-global-color-accent );font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );}.elementor-widget-archive-posts .elementor-pagination{font-family:var( --e-global-typography-secondary-font-family ), Sans-serif;font-weight:var( --e-global-typography-secondary-font-weight );}.elementor-widget-archive-posts .elementor-button{font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );background-color:var( --e-global-color-accent );}.elementor-widget-archive-posts .e-load-more-message{font-family:var( --e-global-typography-secondary-font-family ), Sans-serif;font-weight:var( --e-global-typography-secondary-font-weight );}.elementor-widget-archive-posts .elementor-posts-nothing-found{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-loop-grid .elementor-pagination{font-family:var( --e-global-typography-secondary-font-family ), Sans-serif;font-weight:var( --e-global-typography-secondary-font-weight );}.elementor-widget-loop-grid .elementor-button{font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );background-color:var( --e-global-color-accent );}.elementor-widget-loop-grid .e-load-more-message{font-family:var( --e-global-typography-secondary-font-family ), Sans-serif;font-weight:var( --e-global-typography-secondary-font-weight );}.elementor-widget-posts .elementor-post__title, .elementor-widget-posts .elementor-post__title a{color:var( --e-global-color-secondary );font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-posts .elementor-post__meta-data{font-family:var( --e-global-typography-secondary-font-family ), Sans-serif;font-weight:var( --e-global-typography-secondary-font-weight );}.elementor-widget-posts .elementor-post__excerpt p{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-posts .elementor-post__read-more{color:var( --e-global-color-accent );}.elementor-widget-posts a.elementor-post__read-more{font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );}.elementor-widget-posts .elementor-post__card .elementor-post__badge{background-color:var( --e-global-color-accent );font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );}.elementor-widget-posts .elementor-pagination{font-family:var( --e-global-typography-secondary-font-family ), Sans-serif;font-weight:var( --e-global-typography-secondary-font-weight );}.elementor-widget-posts .elementor-button{font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );background-color:var( --e-global-color-accent );}.elementor-widget-posts .e-load-more-message{font-family:var( --e-global-typography-secondary-font-family ), Sans-serif;font-weight:var( --e-global-typography-secondary-font-weight );}.elementor-widget-portfolio a .elementor-portfolio-item__overlay{background-color:var( --e-global-color-accent );}.elementor-widget-portfolio .elementor-portfolio-item__title{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-portfolio .elementor-portfolio__filter{color:var( --e-global-color-text );font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-portfolio .elementor-portfolio__filter.elementor-active{color:var( --e-global-color-primary );}.elementor-widget-gallery .elementor-gallery-item__title{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-gallery .elementor-gallery-item__description{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-gallery{--galleries-title-color-normal:var( --e-global-color-primary );--galleries-title-color-hover:var( --e-global-color-secondary );--galleries-pointer-bg-color-hover:var( --e-global-color-accent );--gallery-title-color-active:var( --e-global-color-secondary );--galleries-pointer-bg-color-active:var( --e-global-color-accent );}.elementor-widget-gallery .elementor-gallery-title{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-form .elementor-field-group > label, .elementor-widget-form .elementor-field-subgroup label{color:var( --e-global-color-text );}.elementor-widget-form .elementor-field-group > label{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-form .elementor-field-type-html{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-form .elementor-field-group .elementor-field{color:var( --e-global-color-text );}.elementor-widget-form .elementor-field-group .elementor-field, .elementor-widget-form .elementor-field-subgroup label{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-form .elementor-button{font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );}.elementor-widget-form .e-form__buttons__wrapper__button-next{background-color:var( --e-global-color-accent );}.elementor-widget-form .elementor-button[type="submit"]{background-color:var( --e-global-color-accent );}.elementor-widget-form .e-form__buttons__wrapper__button-previous{background-color:var( --e-global-color-accent );}.elementor-widget-form .elementor-message{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-form .e-form__indicators__indicator, .elementor-widget-form .e-form__indicators__indicator__label{font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );}.elementor-widget-form{--e-form-steps-indicator-inactive-primary-color:var( --e-global-color-text );--e-form-steps-indicator-active-primary-color:var( --e-global-color-accent );--e-form-steps-indicator-completed-primary-color:var( --e-global-color-accent );--e-form-steps-indicator-progress-color:var( --e-global-color-accent );--e-form-steps-indicator-progress-background-color:var( --e-global-color-text );--e-form-steps-indicator-progress-meter-color:var( --e-global-color-text );}.elementor-widget-form .e-form__indicators__indicator__progress__meter{font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );}.elementor-widget-login .elementor-field-group > a{color:var( --e-global-color-text );}.elementor-widget-login .elementor-field-group > a:hover{color:var( --e-global-color-accent );}.elementor-widget-login .elementor-form-fields-wrapper label{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-login .elementor-field-group .elementor-field{color:var( --e-global-color-text );}.elementor-widget-login .elementor-field-group .elementor-field, .elementor-widget-login .elementor-field-subgroup label{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-login .elementor-button{font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );background-color:var( --e-global-color-accent );}.elementor-widget-login .elementor-widget-container .elementor-login__logged-in-message{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-slides .elementor-slide-heading{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-slides .elementor-slide-description{font-family:var( --e-global-typography-secondary-font-family ), Sans-serif;font-weight:var( --e-global-typography-secondary-font-weight );}.elementor-widget-slides .elementor-slide-button{font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );}.elementor-widget-nav-menu .elementor-nav-menu .elementor-item{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item{color:var( --e-global-color-text );fill:var( --e-global-color-text );}.elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item:hover,
+					.elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item.elementor-item-active,
+					.elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item.highlighted,
+					.elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item:focus{color:var( --e-global-color-accent );fill:var( --e-global-color-accent );}.elementor-widget-nav-menu .elementor-nav-menu--main:not(.e--pointer-framed) .elementor-item:before,
+					.elementor-widget-nav-menu .elementor-nav-menu--main:not(.e--pointer-framed) .elementor-item:after{background-color:var( --e-global-color-accent );}.elementor-widget-nav-menu .e--pointer-framed .elementor-item:before,
+					.elementor-widget-nav-menu .e--pointer-framed .elementor-item:after{border-color:var( --e-global-color-accent );}.elementor-widget-nav-menu{--e-nav-menu-divider-color:var( --e-global-color-text );}.elementor-widget-nav-menu .elementor-nav-menu--dropdown .elementor-item, .elementor-widget-nav-menu .elementor-nav-menu--dropdown  .elementor-sub-item{font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );}.elementor-widget-animated-headline .elementor-headline-dynamic-wrapper path{stroke:var( --e-global-color-accent );}.elementor-widget-animated-headline .elementor-headline-plain-text{color:var( --e-global-color-secondary );}.elementor-widget-animated-headline .elementor-headline{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-animated-headline{--dynamic-text-color:var( --e-global-color-secondary );}.elementor-widget-animated-headline .elementor-headline-dynamic-text{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-hotspot .widget-image-caption{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-hotspot{--hotspot-color:var( --e-global-color-primary );--hotspot-box-color:var( --e-global-color-secondary );--tooltip-color:var( --e-global-color-secondary );}.elementor-widget-hotspot .e-hotspot__label{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-hotspot .e-hotspot__tooltip{font-family:var( --e-global-typography-secondary-font-family ), Sans-serif;font-weight:var( --e-global-typography-secondary-font-weight );}.elementor-widget-price-list .elementor-price-list-header{color:var( --e-global-color-primary );font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-price-list .elementor-price-list-price{color:var( --e-global-color-primary );font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-price-list .elementor-price-list-description{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-price-list .elementor-price-list-separator{border-bottom-color:var( --e-global-color-secondary );}.elementor-widget-price-table{--e-price-table-header-background-color:var( --e-global-color-secondary );}.elementor-widget-price-table .elementor-price-table__heading{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-price-table .elementor-price-table__subheading{font-family:var( --e-global-typography-secondary-font-family ), Sans-serif;font-weight:var( --e-global-typography-secondary-font-weight );}.elementor-widget-price-table .elementor-price-table .elementor-price-table__price{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-price-table .elementor-price-table__original-price{color:var( --e-global-color-secondary );font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-price-table .elementor-price-table__period{color:var( --e-global-color-secondary );font-family:var( --e-global-typography-secondary-font-family ), Sans-serif;font-weight:var( --e-global-typography-secondary-font-weight );}.elementor-widget-price-table .elementor-price-table__features-list{--e-price-table-features-list-color:var( --e-global-color-text );}.elementor-widget-price-table .elementor-price-table__features-list li{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-price-table .elementor-price-table__features-list li:before{border-top-color:var( --e-global-color-text );}.elementor-widget-price-table .elementor-price-table__button{font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );background-color:var( --e-global-color-accent );}.elementor-widget-price-table .elementor-price-table__additional_info{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-price-table .elementor-price-table__ribbon-inner{background-color:var( --e-global-color-accent );font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );}.elementor-widget-flip-box .elementor-flip-box__front .elementor-flip-box__layer__title{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-flip-box .elementor-flip-box__front .elementor-flip-box__layer__description{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-flip-box .elementor-flip-box__back .elementor-flip-box__layer__title{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-flip-box .elementor-flip-box__back .elementor-flip-box__layer__description{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-flip-box .elementor-flip-box__button{font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );}.elementor-widget-call-to-action .elementor-cta__title{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-call-to-action .elementor-cta__description{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-call-to-action .elementor-cta__button{font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );}.elementor-widget-call-to-action .elementor-ribbon-inner{background-color:var( --e-global-color-accent );font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );}.elementor-widget-media-carousel .elementor-carousel-image-overlay{font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );}.elementor-widget-testimonial-carousel .elementor-testimonial__text{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-testimonial-carousel .elementor-testimonial__name{color:var( --e-global-color-text );font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-testimonial-carousel .elementor-testimonial__title{color:var( --e-global-color-primary );font-family:var( --e-global-typography-secondary-font-family ), Sans-serif;font-weight:var( --e-global-typography-secondary-font-weight );}.elementor-widget-reviews .elementor-testimonial__header, .elementor-widget-reviews .elementor-testimonial__name{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-reviews .elementor-testimonial__text{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-table-of-contents{--header-color:var( --e-global-color-secondary );--item-text-color:var( --e-global-color-text );--item-text-hover-color:var( --e-global-color-accent );--marker-color:var( --e-global-color-text );}.elementor-widget-table-of-contents .elementor-toc__header, .elementor-widget-table-of-contents .elementor-toc__header-title{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-table-of-contents .elementor-toc__list-item{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-countdown .elementor-countdown-item{background-color:var( --e-global-color-primary );}.elementor-widget-countdown .elementor-countdown-digits{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-countdown .elementor-countdown-label{font-family:var( --e-global-typography-secondary-font-family ), Sans-serif;font-weight:var( --e-global-typography-secondary-font-weight );}.elementor-widget-countdown .elementor-countdown-expire--message{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-search-form input[type="search"].elementor-search-form__input{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-search-form .elementor-search-form__input,
+					.elementor-widget-search-form .elementor-search-form__icon,
+					.elementor-widget-search-form .elementor-lightbox .dialog-lightbox-close-button,
+					.elementor-widget-search-form .elementor-lightbox .dialog-lightbox-close-button:hover,
+					.elementor-widget-search-form.elementor-search-form--skin-full_screen input[type="search"].elementor-search-form__input{color:var( --e-global-color-text );fill:var( --e-global-color-text );}.elementor-widget-search-form .elementor-search-form__submit{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );background-color:var( --e-global-color-secondary );}.elementor-widget-author-box .elementor-author-box__name{color:var( --e-global-color-secondary );font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-author-box .elementor-author-box__bio{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-author-box .elementor-author-box__button{color:var( --e-global-color-secondary );border-color:var( --e-global-color-secondary );font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );}.elementor-widget-author-box .elementor-author-box__button:hover{border-color:var( --e-global-color-secondary );color:var( --e-global-color-secondary );}.elementor-widget-post-navigation span.post-navigation__prev--label{color:var( --e-global-color-text );}.elementor-widget-post-navigation span.post-navigation__next--label{color:var( --e-global-color-text );}.elementor-widget-post-navigation span.post-navigation__prev--label, .elementor-widget-post-navigation span.post-navigation__next--label{font-family:var( --e-global-typography-secondary-font-family ), Sans-serif;font-weight:var( --e-global-typography-secondary-font-weight );}.elementor-widget-post-navigation span.post-navigation__prev--title, .elementor-widget-post-navigation span.post-navigation__next--title{color:var( --e-global-color-secondary );font-family:var( --e-global-typography-secondary-font-family ), Sans-serif;font-weight:var( --e-global-typography-secondary-font-weight );}.elementor-widget-post-info .elementor-icon-list-item:not(:last-child):after{border-color:var( --e-global-color-text );}.elementor-widget-post-info .elementor-icon-list-icon i{color:var( --e-global-color-primary );}.elementor-widget-post-info .elementor-icon-list-icon svg{fill:var( --e-global-color-primary );}.elementor-widget-post-info .elementor-icon-list-text, .elementor-widget-post-info .elementor-icon-list-text a{color:var( --e-global-color-secondary );}.elementor-widget-post-info .elementor-icon-list-item{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-sitemap .elementor-sitemap-title{color:var( --e-global-color-primary );font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );}.elementor-widget-sitemap .elementor-sitemap-item, .elementor-widget-sitemap span.elementor-sitemap-list, .elementor-widget-sitemap .elementor-sitemap-item a{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-sitemap .elementor-sitemap-item{color:var( --e-global-color-text );}.elementor-widget-blockquote .elementor-blockquote__content{color:var( --e-global-color-text );}.elementor-widget-blockquote .elementor-blockquote__author{color:var( --e-global-color-secondary );}.elementor-widget-lottie{--caption-color:var( --e-global-color-text );}.elementor-widget-lottie .e-lottie__caption{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-video-playlist .e-tabs-header .e-tabs-title{color:var( --e-global-color-text );}.elementor-widget-video-playlist .e-tabs-header .e-tabs-videos-count{color:var( --e-global-color-text );}.elementor-widget-video-playlist .e-tabs-header .e-tabs-header-right-side i{color:var( --e-global-color-text );}.elementor-widget-video-playlist .e-tabs-header .e-tabs-header-right-side svg{fill:var( --e-global-color-text );}.elementor-widget-video-playlist .e-tab-title .e-tab-title-text{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-video-playlist .e-tab-title .e-tab-title-text a{color:var( --e-global-color-text );}.elementor-widget-video-playlist .e-tab-title .e-tab-duration{color:var( --e-global-color-text );}.elementor-widget-video-playlist .e-tabs-items-wrapper .e-tab-title:where( .e-active, :hover ) .e-tab-title-text{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-video-playlist .e-tabs-items-wrapper .e-tab-title:where( .e-active, :hover ) .e-tab-title-text a{color:var( --e-global-color-text );}.elementor-widget-video-playlist .e-tabs-items-wrapper .e-tab-title:where( .e-active, :hover ) .e-tab-duration{color:var( --e-global-color-text );}.elementor-widget-video-playlist .e-tabs-items-wrapper .e-section-title{color:var( --e-global-color-text );}.elementor-widget-video-playlist .e-tabs-inner-tabs .e-inner-tabs-wrapper .e-inner-tab-title a{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-video-playlist .e-tabs-inner-tabs .e-inner-tabs-content-wrapper .e-inner-tab-content .e-inner-tab-text{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-video-playlist .e-tabs-inner-tabs .e-inner-tabs-content-wrapper .e-inner-tab-content button{color:var( --e-global-color-text );font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );}.elementor-widget-video-playlist .e-tabs-inner-tabs .e-inner-tabs-content-wrapper .e-inner-tab-content button:hover{color:var( --e-global-color-text );}.elementor-widget-paypal-button .elementor-button{font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );background-color:var( --e-global-color-accent );}.elementor-widget-paypal-button .elementor-message{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-stripe-button .elementor-button{font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight );background-color:var( --e-global-color-accent );}.elementor-widget-stripe-button .elementor-message{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}.elementor-widget-progress-tracker .current-progress-percentage{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}
+</style>
+<link rel="stylesheet" id="swiper-css" href="https://shaoyuyoung.github.io/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css?ver=8.4.5" type="text/css" media="all">
+<link rel="stylesheet" id="breezycv_widget_styles-css" href="https://shaoyuyoung.github.io/wp-content/plugins/breezycv-widgets/shortcodes/assets/css/style.css?ver=1.0.0" type="text/css" media="all">
+<link rel="stylesheet" id="elementor-pro-css" href="https://shaoyuyoung.github.io/wp-content/plugins/elementor-pro/assets/css/frontend.min.css?ver=3.23.3" type="text/css" media="all">
+<link rel="stylesheet" id="jquery-lazyloadxt-spinner-css-css" href="https://shaoyuyoung.github.io/wp-content/plugins/a3-lazy-load/assets/css/jquery.lazyloadxt.spinner.css?ver=6.8.3" type="text/css" media="all">
+<link rel="stylesheet" id="a3a3_lazy_load-css" href="https://shaoyuyoung.github.io/wp-content/uploads/sass/a3_lazy_load.min.css?ver=1740050807" type="text/css" media="all">
+<link rel="stylesheet" id="bootstrap-css" href="https://shaoyuyoung.github.io/wp-content/themes/breezycv/css/bootstrap.min.css?ver=4.0.0" type="text/css" media="all">
+<link rel="stylesheet" id="normalize-css" href="https://shaoyuyoung.github.io/wp-content/themes/breezycv/css/normalize.css?ver=1.0" type="text/css" media="all">
+<link rel="stylesheet" id="owl-carousel-css" href="https://shaoyuyoung.github.io/wp-content/themes/breezycv/css/owl.carousel.css?ver=2.0" type="text/css" media="all">
+<link rel="stylesheet" id="perfect-scrollbar-css" href="https://shaoyuyoung.github.io/wp-content/themes/breezycv/css/perfect-scrollbar.css?ver=2.0" type="text/css" media="all">
+<link rel="stylesheet" id="animations-css" href="https://shaoyuyoung.github.io/wp-content/themes/breezycv/css/animations.css?ver=1.0" type="text/css" media="all">
+<link rel="stylesheet" id="magnific-popup-css" href="https://shaoyuyoung.github.io/wp-content/themes/breezycv/css/magnific-popup.css?ver=1.3.0" type="text/css" media="all">
+<link rel="stylesheet" id="fw-option-type-icon-v2-pack-linear-icons-css" href="https://shaoyuyoung.github.io/wp-content/themes/breezycv/css/linearicons/style.css?ver=2.7.31" type="text/css" media="all">
+<link rel="stylesheet" id="fw-option-type-icon-v2-pack-font-awesomefw-css" href="https://shaoyuyoung.github.io/wp-content/themes/breezycv/css/font-awesome/css/font-awesome.min.css?ver=2.7.31" type="text/css" media="all">
+<link rel="stylesheet" id="breezycv-main-styles-css" href="https://shaoyuyoung.github.io/wp-content/themes/breezycv/css/main.css?ver=1.5.6" type="text/css" media="all">
+<link rel="stylesheet" id="breezycv-customization-css" href="https://shaoyuyoung.github.io/wp-content/themes/breezycv/css/customization.css?ver=1.5.6" type="text/css" media="all">
+<style id="breezycv-customization-inline-css" type="text/css">
+
+        .page-content {
+            max-width: 1280px;
+        }
+        @media only screen and (min-width: 1024px){
+            .page-content {
+                border-radius: 32px;
+                
+            }
+            .animated-section,
+            .section-content,
+            .single-page-content,
+            .content-wrapper {
+               border-radius: 30px; 
+            }
+        }
+
+        /* ============================================================================= 
+        2. Typography
+        ============================================================================= */
+        body,
+        p,
+        .elementor .elementor-widget-icon-box .elementor-icon-box-content .elementor-icon-box-description {
+            font-family: "Poppins", Helvetica, sans-serif;
+            font-size: 15px;
+            font-weight: 0;
+            font-style: normal;
+            line-height: 1.75em;
+            color: #555;
+        }
+
+        .form-control,
+        .form-control:focus,
+        .has-error .form-control,
+        .has-error .form-control:focus {
+            font-family: "Poppins", Helvetica, sans-serif;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: "Poppins", Helvetica, sans-serif;
+            font-weight: 600;
+            font-style: normal;
+            color: #222;
+        }
+
+        .logo-text, .logo-symbol {
+            font-family: "Poppins", Helvetica, sans-serif;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #222;
+        }
+        h2 {
+            font-size: 24px;
+            color: #222;
+        }
+        h3 {
+            font-size: 18px;
+            color: #222;
+        }
+        h4 {
+            font-size: 16px;
+            color: #222;
+        }
+        h5 {
+            font-size: 14px;
+            color: #222;
+        }
+        h6 {
+            font-size: 12px;
+            color: #222;
+        }
+
+        .testimonial-author {
+            font-family: "Poppins", Helvetica, sans-serif;
+            font-weight: 600;
+            font-style: normal;
+            color: #222;
+        }
+
+        .timeline-item .item-period,
+        .mobile-site-title {
+            font-family: "Poppins", Helvetica, sans-serif;
+        }
+
+        .form-control,
+        .form-control:focus,
+        .has-error .form-control,
+        .has-error .form-control:focus,
+        input[type="search"],
+        input[type="password"],
+        input[type="text"],
+        .header-search input.form-control {
+            font-family: "Poppins", Helvetica, sans-serif;
+            font-weight: 0;
+            font-style: normal;
+        }
+
+        .btn-primary, .btn-secondary, button, input[type="button"], input[type="submit"] {
+            font-family: "Poppins", Helvetica, sans-serif;
+        }
+
+
+        /* ============================================================================= 
+        3. Logo
+        ============================================================================= */
+        .header-photo,
+        .header-photo img {
+            
+        height: auto;
+        max-height: 340px;
+        
+            
+        width: auto;
+        max-width: 340px;
+        
+        }
+
+
+        
+        .logo-text {
+            line-height: 340px;
+            margin-left: 10px;
+        }
+        
+
+        
+
+        
+
+        /* ============================================================================= 
+        4. Backgrounds
+        ============================================================================= */
+        
+        html {
+            background: -webkit-gradient(linear, left top, left bottom, from(#edf3f7), to(#edf3f7));
+            background: linear-gradient(#edf3f7, #edf3f7);
+        }
+        body {
+            background-color: transparent;
+        }
+    
+    .lm-animated-bg {
+        position: absolute;
+        width: auto;
+        height: auto;
+        top: -18px;
+        left: -18px;
+        right: -18px;
+        bottom: -18px;
+        background-image: url();
+        background-position: center center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        z-index: -1;
+    }
+    
+
+        .animated-section > .section-content,
+        .single-page-content > .content-wrapper,
+        .page-portfolio-loaded,
+        .single-post .site-content .post-content {
+            background-color: #fff;
+        }
+
+        .btn-primary:hover,
+        .btn-primary:focus,
+        .elementor .btn-primary:hover,
+        .elementor .btn-primary:focus,
+        button:hover,
+        button:focus,
+        input[type="button"]:hover,
+        input[type="button"]:focus,
+        input[type="submit"]:hover,
+        input[type="submit"]:focus,
+        .elementor .skill-percentage,
+        .elementor .service-icon,
+        .lm-pricing .lm-package-wrap.highlight-col .lm-heading-row span:after,
+        .portfolio-page-nav > div.nav-item a:hover,
+        .elementor .testimonials.owl-carousel .owl-nav .owl-prev:hover,
+        .elementor .testimonials.owl-carousel .owl-nav .owl-next:hover,
+        .elementor .clients.owl-carousel .owl-nav .owl-prev:hover,
+        .elementor .clients.owl-carousel .owl-nav .owl-next:hover,
+        .elementor .fw-pricing .fw-package-wrap.highlight-col .fw-heading-row span:after,
+        .cat-links li a,
+        .cat-links li a:hover,
+        .calendar_wrap td#today,
+        .nothing-found p,
+        .elementor .portfolio-grid figure .portfolio-preview-desc h5:after,
+        .preloader-spinner,
+        .elementor .info-list li .title:after,
+        .elementor .clients.owl-carousel .owl-dot.active span,
+        .elementor .clients.owl-carousel .owl-dot:hover span,
+        .elementor .testimonials.owl-carousel .owl-dot.active span,
+        .elementor .testimonials.owl-carousel .owl-dot:hover span,
+        .logo-symbol,
+        .elementor .fw-pricing .fw-package.highlight .fw-heading-row span:after,
+        .ps:hover>.ps__scrollbar-y-rail:hover>.ps__scrollbar-y,
+        .elementor .knowledges li,
+        .elementor .timeline .divider:before {
+            background-color: #09aeea;
+        }
+
+        @media only screen and (min-width: 1025px) {
+            ul.main-menu .link-text {
+                background-color: #09aeea;
+            }
+        }
+
+        @media only screen and (max-width: 1024px) {
+            .menu-toggle {
+                background-color: #09aeea;
+            }
+        }
+
+
+        .blog-sidebar .sidebar-item {
+            background-color: #fff;
+        }
+
+        .block-title:after, h3.comment-reply-title:after {
+            background-image: -webkit-repeating-radial-gradient(center center, #09aeea, #09aeea 1px, transparent 0px, transparent 100%);
+            background-image: -moz-repeating-radial-gradient(center center, #09aeea, #09aeea 1px, transparent 0px, transparent 100%);
+            background-image: -ms-repeating-radial-gradient(center center, #09aeea, #09aeea 1px, transparent 0px, transparent 100%);
+        }
+
+
+
+
+        /* ============================================================================= 
+        5. Colors
+        ============================================================================= */
+        a,
+        .form-group-with-icon.form-group-focus i,
+        .site-title span,
+        .header-search button:hover,
+        .header-search button:focus,
+        .block-title h3 span,
+        .header-search button:hover,
+        .header-search button:focus,
+        .ajax-page-nav > div.nav-item a:hover,
+        .project-general-info .fa,
+        .comment-author a:hover,
+        .comment-list .pingback a:hover,
+        .comment-list .trackback a:hover,
+        .comment-metadata a:hover,
+        .comment-reply-title small a:hover,
+        .entry-title a:hover,
+        .entry-content .edit-link a:hover,
+        .post-navigation a:hover,
+        .image-navigation a:hover,
+        .elementor .portfolio-grid figure i,
+        .share-buttons a:hover,
+        .elementor .info-block-w-icon i,
+        .elementor .lm-info-block i,
+        .lmpixels-arrows-nav div:hover,
+        .block-title h2 span, h3.comment-reply-title span,
+        ul.main-menu .current-menu-item a,
+        .elementor .block-title h2 span,
+        .elementor .fun-fact i,
+        .elementor .testimonial .author-info .icon,
+        .elementor .header-buttons .btn-primary:hover,
+        .elementor .form-group:not(.form-group-checkbox) .form-control:focus ~ label,
+        .elementor .form-group.form-group-focus:not(.form-group-checkbox) .form-control ~ label,
+        .elementor .info-list li .title,
+        .header-buttons .btn-primary:hover {
+            color: #09aeea;
+        }
+
+        a,
+        .entry-meta:not(.entry-tags-share) a:hover {
+            color: #0099cc;
+        }
+
+        a:hover,
+        .post-navigation .meta-nav:hover {
+            color: #006699;
+        }
+
+        .wp-block-pullquote.is-style-solid-color {
+            background-color: #09aeea;
+        }
+
+        .wp-block-button:not(.is-style-outline) .wp-block-button__link:not(.has-background),
+        .wp-block-button.is-style-outline .wp-block-button__link:active,
+        .wp-block-button.is-style-outline .wp-block-button__link:focus,
+        .wp-block-button.is-style-outline .wp-block-button__link:hover {
+            background-color: #09aeea;
+        }
+
+        @media only screen and (min-width: 1025px) {
+            ul.main-menu a.active,
+            ul.main-menu a:focus,
+            ul.main-menu a:hover {
+                color: #09aeea;
+            }
+        }
+
+        @media only screen and (max-width: 1024px) {
+            .header {
+                background-color: #09aeea;
+            }
+        }
+
+
+
+
+        /* ============================================================================= 
+        6. Borders
+        ============================================================================= */
+        .logo-symbol,
+        .btn-primary,
+        .elementor .btn-primary,
+        button,
+        input[type="button"],
+        input[type="submit"],
+        .btn-primary:hover,
+        .btn-primary:focus,
+        button:hover,
+        button:focus,
+        input[type="button"]:hover,
+        input[type="button"]:focus,
+        input[type="submit"]:hover,
+        input[type="submit"]:focus,
+        .form-control + .form-control-border,
+        .elementor .timeline-item,
+        .elementor .timeline-item:before,
+        .page-links a:hover,
+        .paging-navigation .page-numbers.current,
+        .paging-navigation .page-numbers:hover,
+        .paging-navigation .page-numbers:focus,
+        .portfolio-grid figure .portfolio-preview-desc h5:after,
+        .paging-navigation a:hover,
+        .skill-container,
+        .btn-primary, button, input[type="button"], input[type="submit"],
+        .blog-sidebar ul li:before,
+        .elementor .share-buttons a:hover,
+        .elementor .testimonials.owl-carousel .owl-nav .owl-prev:hover,
+        .elementor .testimonials.owl-carousel .owl-nav .owl-next:hover,
+        .elementor .clients.owl-carousel .owl-nav .owl-prev:hover,
+        .elementor .clients.owl-carousel .owl-nav .owl-next:hover,
+        .wp-block-pullquote,
+        .wp-block-button .wp-block-button__link,
+        .elementor .timeline-item h5.item-period,
+        .form-control ~ .form-control-border,
+        .elementor .form-control ~ .form-control-border,
+        .elementor .timeline .divider:after {
+            border-color: #09aeea;
+        }
+
+        @media only screen and (max-width: 1024px) {
+            .lmpixels-arrows-nav {
+                border-color: #09aeea;
+            }
+        }
+
+
+        /* ============================================================================= 
+        7. Page Titles and Page Content Area
+        ============================================================================= */
+        .page-title:after {
+            background-image: -webkit-repeating-radial-gradient(center center, #09aeea, #09aeea 1px, transparent 0px, transparent 100%);
+            background-image: -moz-repeating-radial-gradient(center center, #09aeea, #09aeea 1px, transparent 0px, transparent 100%);
+            background-image: -ms-repeating-radial-gradient(center center, #09aeea, #09aeea 1px, transparent 0px, transparent 100%);
+        }
+
+        .page-title h1 {
+            color: #222;
+            font-size: 32px;
+            font-family: Poppins, Helvetica, sans-serif;
+            font-weight: 600;
+            font-style: normal;
+            letter-spacing: 0px;
+        }
+
+        @media only screen and (max-width: 1024px) {
+            .page-title h1 {
+                font-size: 25.6px;
+            }
+        }
+
+        .page-content {
+            background: -webkit-gradient(linear, left top, left bottom, from(#21e1ae), to(#09aeea));
+            background: linear-gradient(#21e1ae, #09aeea);
+        }
+
+        
+
+        /* ============================================================================= 
+        8. Custom Styles
+        ============================================================================= */
+        
+    
+</style>
+<link rel="stylesheet" id="breezycv-google-fonts-css" href="http://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic" type="text/css" media="all">
+<link rel="stylesheet" id="google-fonts-1-css" href="https://fonts.googleapis.com/css?family=Roboto%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CRoboto+Slab%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&amp;display=auto&amp;ver=6.8.3" type="text/css" media="all">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><script type="text/javascript" src="https://shaoyuyoung.github.io/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
+<link rel="https://api.w.org/" href="https://shaoyuyoung.github.io/wp-json/"><link rel="alternate" title="JSON" type="application/json" href="https://shaoyuyoung.github.io/wp-json/wp/v2/posts/1199"><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://shaoyuyoung.github.io/xmlrpc.php?rsd">
+<meta name="generator" content="WordPress 6.8.3">
+<link rel="canonical" href="https://shaoyuyoung.github.io/ai-infra-testing-2/">
+<link rel="shortlink" href="https://shaoyuyoung.github.io/?p=1199">
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://shaoyuyoung.github.io/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fshaoyuyoung.github.io%2Fai-infra-testing-2%2F">
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://shaoyuyoung.github.io/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fshaoyuyoung.github.io%2Fai-infra-testing-2%2F&amp;format=xml">
+<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>			<style>
+				.e-con.e-parent:nth-of-type(n+4):not(.e-lazyloaded):not(.e-no-lazyload),
+				.e-con.e-parent:nth-of-type(n+4):not(.e-lazyloaded):not(.e-no-lazyload) * {
+					background-image: none !important;
+				}
+				@media screen and (max-height: 1024px) {
+					.e-con.e-parent:nth-of-type(n+3):not(.e-lazyloaded):not(.e-no-lazyload),
+					.e-con.e-parent:nth-of-type(n+3):not(.e-lazyloaded):not(.e-no-lazyload) * {
+						background-image: none !important;
+					}
+				}
+				@media screen and (max-height: 640px) {
+					.e-con.e-parent:nth-of-type(n+2):not(.e-lazyloaded):not(.e-no-lazyload),
+					.e-con.e-parent:nth-of-type(n+2):not(.e-lazyloaded):not(.e-no-lazyload) * {
+						background-image: none !important;
+					}
+				}
+			</style>
+			<link rel="icon" href="https://shaoyuyoung.github.io/wp-content/uploads/2025/01/cropped-pixiu.webp" sizes="32x32">
+<link rel="icon" href="https://shaoyuyoung.github.io/wp-content/uploads/2025/01/cropped-pixiu.webp" sizes="192x192">
+<link rel="apple-touch-icon" href="https://shaoyuyoung.github.io/wp-content/uploads/2025/01/cropped-pixiu.webp">
+<meta name="msapplication-TileImage" content="https://shaoyuyoung.github.io/wp-content/uploads/2025/01/cropped-pixiu.webp">
+</head>
+
+<body class="wp-singular post-template-default single single-post postid-1199 single-format-standard wp-embed-responsive wp-theme-breezycv eio-default masthead-fixed full-width singular elementor-default elementor-kit-13 elementor-page elementor-page-1199">
+
+<div class="lm-animated-bg"></div>
+    
+<!-- Loading animation -->
+<div class="preloader">
+  <div class="preloader-animation">
+    <div class="preloader-spinner">
+    </div>
+  </div>
+</div>
+<!-- /Loading animation -->
+
+<div class="page-wrapper bg-move-effect">
+    <div class="page-content site-content">
+
+        <header id="site_header" class="header mobile-menu-hide">
+            <div class="header-content">
+                <div class="header-photo">
+                                        <a href="https://shaoyuyoung.github.io/">
+                        <img src="https://shaoyuyoung.github.io/wp-content/uploads/2026/06/avtar-scaled.jpg" alt="image">
+                    </a>
+                                    </div>
+
+                                <div class="header-titles">
+                                            <a href="https://shaoyuyoung.github.io/">
+                            <h2>Shaoyu Yang</h2>
+                        </a>
+                                                                <h4>杨少宇</h4>
+                                    </div>
+                            </div>
+
+            <ul id="menu-vcard-menu" class="breezycv-classic-menu main-menu"><li id="menu-item-20" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-icon"><a class="nav-anim" href="https://shaoyuyoung.github.io/#home" data-object="page"><span class="menu-icon lnr lnr-home"></span> <span class="link-text">Home</span></a></li>
+<li id="menu-item-30" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-icon"><a class="nav-anim" href="https://shaoyuyoung.github.io/#about-me" data-object="page"><span class="menu-icon lnr lnr-user"></span> <span class="link-text">About Me</span></a></li>
+<li id="menu-item-61" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-icon"><a class="nav-anim" href="https://shaoyuyoung.github.io/#resume" data-object="page"><span class="menu-icon lnr lnr-graduation-hat"></span> <span class="link-text">Resume</span></a></li>
+<li id="menu-item-212" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-icon"><a class="nav-anim" href="https://shaoyuyoung.github.io/#publication" data-object="page"><span class="menu-icon fafw fafw-file-text"></span> <span class="link-text">Publication</span></a></li>
+<li id="menu-item-515" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-icon"><a class="nav-anim" href="https://shaoyuyoung.github.io/#awards" data-object="page"><span class="menu-icon fafw fafw-trophy"></span> <span class="link-text">Awards</span></a></li>
+<li id="menu-item-107" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-icon"><a class="nav-anim" href="https://shaoyuyoung.github.io/#blog" data-object="page"><span class="menu-icon lnr lnr-book"></span> <span class="link-text">Blog</span></a></li>
+<li id="menu-item-111" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-icon"><a class="nav-anim" href="https://shaoyuyoung.github.io/#contact" data-object="page"><span class="menu-icon lnr lnr-envelope"></span> <span class="link-text">Contact</span></a></li>
+</ul>
+             <!-- Social Links -->
+                        <div class="social-links">
+              <ul>
+                                    <li>
+                        <a href="https://www.linkedin.com/in/shaoyu-yang-325b092a8" target="_blank">
+                                                                                        <i class="fafw fafw-linkedin"></i>
+                                                    </a>
+                    </li>
+                                      <li>
+                        <a href="https://scholar.google.com/citations?hl=zh-CN&amp;user=xjXyBgUAAAAJ" target="_blank">
+                                                                                        <i class="fafw fafw-google"></i>
+                                                    </a>
+                    </li>
+                                      <li>
+                        <a href="https://github.com/shaoyuyoung" target="_blank">
+                                                                                        <i class="fafw fafw-github"></i>
+                                                    </a>
+                    </li>
+                                      <li>
+                        <a href="https://shaoyuyoung.github.io/wp-content/uploads/2026/01/xiaohongshulink.jpg" target="_blank">
+                                                            <img src="https://shaoyuyoung.github.io/wp-content/uploads/2026/01/xiaohongshu.png" alt="xiaohongshu">
+                                                                                </a>
+                    </li>
+                                </ul>
+            </div>
+                        <!-- /Social Links -->
+
+            <!-- Buttons -->
+                                                    <!-- /Buttons -->
+
+            <!-- Copyrights -->
+                        <div class="copyrights">© 2023-2026 All rights reserved.</div>
+                        <!-- /Copyrights -->
+        </header>
+
+        <div class="mobile-site-title mobile-visible">
+            <a href="https://shaoyuyoung.github.io/">
+                Shaoyu Yang            </a>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <!-- End Mobile Navigation -->
+
+        <div class="content-area single-page-area">
+    <div class="single-page-content">
+        <div class="content-wrapper">
+			
+<article id="post-1199" class="post-1199 post type-post status-publish format-standard has-post-thumbnail hentry category-notes">
+
+	<header class="entry-header">
+		<div class="entry-meta entry-meta-top">
+			<span><a href="https://shaoyuyoung.github.io/category/notes/" rel="category tag">Notes</a></span> 					</div><!-- .entry-meta -->
+
+				<h2 class="entry-title">🛠️AI Infra Testing②: How to draft a good bug report for open-source community?</h2>	</header><!-- .entry-header -->
+
+	
+			<div class="post-thumbnail">
+				<img fetchpriority="high" width="1651" height="659" src="https://shaoyuyoung.github.io/wp-content/plugins/a3-lazy-load/assets/images/lazy_placeholder.gif" data-lazy-type="image" data-src="https://shaoyuyoung.github.io/wp-content/uploads/2025/04/AI-Infra-Testing-2.png" class="lazy lazy-hidden attachment-full size-full wp-post-image" alt="" decoding="async" srcset="" data-srcset="https://shaoyuyoung.github.io/wp-content/uploads/2025/04/AI-Infra-Testing-2.png 1651w, https://shaoyuyoung.github.io/wp-content/uploads/2025/04/AI-Infra-Testing-2-300x120.png 300w, https://shaoyuyoung.github.io/wp-content/uploads/2025/04/AI-Infra-Testing-2-1024x409.png 1024w, https://shaoyuyoung.github.io/wp-content/uploads/2025/04/AI-Infra-Testing-2-768x307.png 768w, https://shaoyuyoung.github.io/wp-content/uploads/2025/04/AI-Infra-Testing-2-1536x613.png 1536w" sizes="(max-width: 1651px) 100vw, 1651px"><noscript><img width="1651" height="659" src="https://shaoyuyoung.github.io/wp-content/uploads/2025/04/AI-Infra-Testing-2.png" class="attachment-full size-full wp-post-image" alt="" decoding="async" srcset="https://shaoyuyoung.github.io/wp-content/uploads/2025/04/AI-Infra-Testing-2.png 1651w, https://shaoyuyoung.github.io/wp-content/uploads/2025/04/AI-Infra-Testing-2-300x120.png 300w, https://shaoyuyoung.github.io/wp-content/uploads/2025/04/AI-Infra-Testing-2-1024x409.png 1024w, https://shaoyuyoung.github.io/wp-content/uploads/2025/04/AI-Infra-Testing-2-768x307.png 768w, https://shaoyuyoung.github.io/wp-content/uploads/2025/04/AI-Infra-Testing-2-1536x613.png 1536w" sizes="(max-width: 1651px) 100vw, 1651px"></noscript>			</div>
+
+		
+	<div class="post-content">
+				<div class="entry-content">
+					<div data-elementor-type="wp-post" data-elementor-id="1199" class="elementor elementor-1199" data-elementor-post-type="post">
+						<section class="elementor-section elementor-top-section elementor-element elementor-element-293465a elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="293465a" data-element_type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-1c4a7e5" data-id="1c4a7e5" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-d969e70 elementor-widget elementor-widget-text-editor" data-id="d969e70" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+							<p>About one year ago, I read one of <a href="https://jiawei-site.github.io/" target="_blank" rel="noopener">Jiawei Liu</a>‘s blogs about <a href="https://jw-liu.xyz/blog/2023/progressive-finding/" target="_blank" rel="noopener"><em>Progressive bug finding in the open-source of Deep Learning</em></a>, which inspired me a lot. Now, based on my experience of reporting bugs for the open source community over the past year, I want to write a blog about drafting bug reports that incorporates some of my personal understandings. As my research focuses on AI Infra testing, I take reporting <strong><span style="text-decoration: underline;">DL system bugs</span></strong> as an example.</p><p>As I mentioned in my previous blog, I assume that you have completed local debugging and found a bug (in PyTorch).  (One more word, there are many ways to find bugs, including using some testing techniques or in your daily use.) <strong><span style="color: #ff0000;">If it is about the debugging of <code>torch.compile()</code>, I strongly recommend carefully reading <a href="https://docs.pytorch.org/docs/stable/torch.compiler_troubleshooting.html" target="_blank" rel="noopener">this document</a> first.</span></strong></p>						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-7475bfe elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="7475bfe" data-element_type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-21840f7" data-id="21840f7" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-161fa4a elementor-widget elementor-widget-heading" data-id="161fa4a" data-element_type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+			<h2 class="elementor-heading-title elementor-size-default">S1: Why do we report bugs to the open source community?</h2>		</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-7c6f54f elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="7c6f54f" data-element_type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-29e872d" data-id="29e872d" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-18d9218 elementor-widget elementor-widget-text-editor" data-id="18d9218" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+							<p><span style="color: #ff00ff;"><strong>[Motivation]</strong></span>:Before we start, we should figure out why we need to report bugs to the open-source community. Well, for many people (researchers), this is an important “KPI” for their papers. There is no denying that the number of reported bugs is indeed a very important indicator of testing techniques. However, forgive me! I must say that <span style="color: #ff0000;">⚠️reporting <strong>outdated</strong> or <strong>false</strong> bugs to the community to make the data in the paper look better is meaningless and even adds to the burden of the community.</span> We should reject and resist this kind of behaviour.</p><p>From my perspective, the process from discovering a bug to reporting and then watching the issue be solved is very comforting. <span style="color: #0000ff;">This also gives me sufficient research motivation to convince me that what I am doing now is meaningful.</span> Additionally, to be honest, I also need these bugs to support my research (paper), proving the effectiveness of my designed approach. I’m also very willing to make my bug list public to facilitate the subsequent research. I believe that this contributes to this research field!</p><p><strong><em>The community is not composed of a single person, but is made up of our efforts together</em></strong></p>						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-bd29ec2 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="bd29ec2" data-element_type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-8cfa21a" data-id="8cfa21a" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-22698ba elementor-widget elementor-widget-heading" data-id="22698ba" data-element_type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+			<h2 class="elementor-heading-title elementor-size-default">S2: How to draft a good bug report?</h2>		</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-f60d60b elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="f60d60b" data-element_type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-a32bc9f" data-id="a32bc9f" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-e686d58 elementor-widget elementor-widget-text-editor" data-id="e686d58" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+							<span style="color: #ff00ff;"><strong>[Code Formatting]</strong></span>: Now, let’s get to the point. When you find a PyTorch bug, you should first provide an <strong>executable script </strong>(usually a code snippet of Python). This script should follow the below principal criteria.
+<ul>
+ 	<li><span style="color: #000000;"><strong>Minimal reproduction</strong></span>: Before we submit a bug report, we should first do some ablations. Let me take <a href="https://github.com/pytorch/pytorch/issues/151522" target="_blank">PyTorch#151522</a> below as an example. At the beginning, my designed fuzzer generated a model with <code>torch.relu()-.to_sparse()-.to_dense()</code>. This model executes successfully on eager and fails on Inductor. Furthermore, I did some ablations and found that <code>torch.relu()</code>(Line 15) is not the condition to trigger the error, so we can remove this operator. I did the same thing on <code>.to_sparse()</code> and <code>.to_dense()</code> . Ultimately, I found that this bug could be triggered if and only if <code>.to_sparse()-.to_dense()</code> was used together. As a result, an intuitive idea is to isolate the optimization of these two operators through graph break. Immediately after that, I found that the crash did disappear along with the use of <code>torch._dynamo.graph_break()</code>. I added this comment on Line 17.</li>
+ 	<li><span style="color: #000000;"><strong>Well-organized and highly readable</strong></span>:  In addition to minimal repro, a well-organized and highly readable code script is also necessary, which can reduce the understanding cost for developers. First, code snippet length should <span style="color: #000000;"><strong>not exceed 100 lines</strong></span>. Redundant and long code is really annoying, discouraging me from continuing to read. Second, try to <span style="color: #000000;"><strong>encapsulate some functions</strong></span> to reduce the lines of code. Look at the code below, I wrote a function (namely <code>run_test</code>) to reuse some repeated code (e.g., <code>torch.compile</code>, <code>model(*inputs)</code>). Moreover, encapsulated functions can shield readers from some details, and the function’s role can be accurately identified through the function signature.</li>
+</ul>						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-9a14103 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="9a14103" data-element_type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-fca52b3" data-id="fca52b3" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-12360cd elementor-widget elementor-widget-code-highlight" data-id="12360cd" data-element_type="widget" data-widget_type="code-highlight.default">
+				<div class="elementor-widget-container">
+					<div class="prismjs-default copy-to-clipboard ">
+			<pre data-line="10-19" class="highlight-height language-python line-numbers">
+				<code readonly class="language-python">
+					<xmp>import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch._inductor import config
+
+config.fallback_random = True
+torch.set_grad_enabled(False)
+
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x):
+        # x = torch.relu(x)  # This is not the necessary factor to trigger crash
+        x_sparse = x.to_sparse()
+        # torch._dynamo.graph_break()  # using `graph_break` can eliminate crash
+        x_dense = x_sparse.to_dense()
+        return x_dense
+
+
+model = Model()
+
+
+x = torch.tensor([[1.0]])
+
+inputs = [x]
+
+
+def run_test(model, inputs, backend):
+    torch.manual_seed(0)
+    if backend != "eager":
+        model = torch.compile(model, backend=backend)
+    try:
+        output = model(*inputs)
+        print(f"succeed on {backend}")
+    except Exception as e:
+        print(e)
+
+
+run_test(model, inputs, 'eager')
+run_test(model, inputs, 'inductor')</xmp>
+				</code>
+			</pre>
+		</div>
+				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-c8921c7 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="c8921c7" data-element_type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-7f4527f" data-id="7f4527f" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-137f883 elementor-alert-success elementor-widget elementor-widget-alert" data-id="137f883" data-element_type="widget" data-widget_type="alert.default">
+				<div class="elementor-widget-container">
+					<div class="elementor-alert" role="alert">
+
+						<span class="elementor-alert-title">Eager</span>
+			
+						<span class="elementor-alert-description">succeed on eager</span>
+			
+						<button type="button" class="elementor-alert-dismiss">
+									<span aria-hidden="true">×</span>
+								<span class="elementor-screen-only">忽略此提醒</span>
+			</button>
+			
+		</div>
+				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-e7a9f32 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="e7a9f32" data-element_type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-d68f388" data-id="d68f388" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-f694c91 elementor-alert-danger elementor-widget elementor-widget-alert" data-id="f694c91" data-element_type="widget" data-widget_type="alert.default">
+				<div class="elementor-widget-container">
+					<div class="elementor-alert" role="alert">
+
+						<span class="elementor-alert-title">Compiler</span>
+			
+						<span class="elementor-alert-description">LoweringException: NotImplementedError: could not find kernel for aten._to_dense.default at dispatch key DispatchKey.CPU</span>
+			
+						<button type="button" class="elementor-alert-dismiss">
+									<span aria-hidden="true">×</span>
+								<span class="elementor-screen-only">忽略此提醒</span>
+			</button>
+			
+		</div>
+				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-5576700 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="5576700" data-element_type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-368aae8" data-id="368aae8" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-8ec8948 elementor-widget elementor-widget-text-editor" data-id="8ec8948" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+							<span style="color: #ff00ff;"><strong>[Report Formatting]</strong></span>: I devote a separate paragraph to elaborating on the importance of code. However, some other components in the bug report are also important. Let me introduce you to how to write these nice components.
+<ul>
+ 	<li><span style="color: #000000;"><strong>Bug report title</strong></span>: Usually, it is enough to summarize the problem you encounter in one sentence. A small tip here is that you can use some formatted words (usually wrapped in <code>[xxx]</code>) to attract the attention of the developers of these relevant modules (for example, I almost added <code>[inductor]</code> or <code>[dynamo]</code> before the title of each of my bug reports).</li>
+ 	<li><span style="color: #000000;"><strong>Symptom description</strong></span>: In this section, we should clarify what problem we met during the usage process (e.g., in <a href="https://github.com/pytorch/pytorch/issues/151522" target="_blank">PyTorch#151522</a>, I wrote: “<code class="notranslate">.to_sparse()-.to_dense()</code> throws errors while eager can execute successfully.”). You can also add some supplementary information here to make it clearer for the developers. For example, in my bug report, I always clarify which code generation backend (i.e., CPP or Triton) the bug occurs on. <span style="color: #ff0000;"><strong>The more detailed information you provide, the faster developers can understand and fix bugs</strong></span>.</li>
+ 	<li><span style="color: #000000;"><strong>Error logs</strong></span>: Here should contain the script execution results on your machine. In this case, I provided the execution results on eager and compiler, respectively (as you can see above). <span style="color: #0000ff;">A small tip</span> here is that the error log should also be <span style="color: #000000;"><strong>concise</strong></span>, <span style="color: #000000;"><strong>clear</strong></span>, and <strong><span style="color: #000000;">short</span></strong>. For example, sometimes the error information may contain some file paths that make the information too long. We can clear them because these file paths are usually useless for debugging (I mean for developers).</li>
+ 	<li><span style="color: #000000;"><strong>Environment and version</strong></span>: Environment and version information is a key part to instruct developers can concisely reproduce your bugs. Some popular open-source projects contain their own <strong><span style="color: #000000;">environment collection scripts</span></strong>. Take PyTorch as an example, in their <a href="https://github.com/pytorch/pytorch/issues/new?template=bug-report.yml" target="_blank">bug report template</a>, they provide this command to download and run the environment information below. After you run the script, you will obtain an extremely long piece of environmental information! If you simply paste them into the bug report, it will also make the bug report annoying. <span style="color: #0000ff;">Tip</span> here is: You can use some HTML tags (<code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code>) to wrap environment information. For more details, you can refer to <a href="https://github.com/pytorch/pytorch/issues/144536" target="_blank">PyTorch#144536</a>. I explained my thoughts in detail there.</li>
+</ul>						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-969c67f elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="969c67f" data-element_type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-4bdd51c" data-id="4bdd51c" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-67dcd89 elementor-widget elementor-widget-code-highlight" data-id="67dcd89" data-element_type="widget" data-widget_type="code-highlight.default">
+				<div class="elementor-widget-container">
+					<div class="prismjs-default copy-to-clipboard ">
+			<pre data-line="" class="highlight-height language-bash line-numbers">
+				<code readonly class="language-bash">
+					<xmp>wget https://raw.githubusercontent.com/pytorch/pytorch/main/torch/utils/collect_env.py
+# For security purposes, please check the contents of collect_env.py before running it.
+python collect_env.py</xmp>
+				</code>
+			</pre>
+		</div>
+				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-b56f7fe elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="b56f7fe" data-element_type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-3f14ff5" data-id="3f14ff5" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-f5b0bd8 elementor-widget elementor-widget-text-editor" data-id="f5b0bd8" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+							<p>OK, that’s all for the format of (PyTorch) bug report (from my personal understanding). </p>						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-2419e21 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="2419e21" data-element_type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-2c73459" data-id="2c73459" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-9092293 elementor-widget elementor-widget-heading" data-id="9092293" data-element_type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+			<h2 class="elementor-heading-title elementor-size-default">S3: Can we try to fix this bug by ourselves?</h2>		</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-cd8e372 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="cd8e372" data-element_type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-949d1a3" data-id="949d1a3" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-c536f5d elementor-widget elementor-widget-text-editor" data-id="c536f5d" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+							<p>The last part of this blog is to introduce <em><strong>how we fix some simple bugs</strong></em>. It’s a more advanced skill, but please believe me, sometimes it’s not as difficult as you think! I list several items in chronological order.</p><ol><li><span style="color: #000000;"><strong>Familiar with the code base</strong></span>: I must make it clear that “familiar” doesn’t mean that you should know every code file or even every line of code. But you should be roughly familiar with the directory structure of the code base and their functions. In PyTorch Inductor, you should know the code files whose optimizations correspond to (e.g., <code>partition</code>, <code>decomp</code>, <code>lowering</code>). I use some specific terms. If you don’t know them completely, maybe you should learn the PyTorch Inductor first.</li><li><span style="color: #000000;"><strong>Figure out the issue</strong></span>: <span style="color: #ff0000;">Fixing some edge case bugs is often a good start</span>. For semantic errors, I suggest you don’t even touch them. Please give them to professional maintainers. So-called edge case bugs. So-called edge case bugs are mostly caused by the lack of some simple boundary checks. Look at this Issue (<a href="https://github.com/pytorch/pytorch/issues/143779" target="_blank" rel="noopener">#143779</a>), eager throws an error, but Inductor passes the check, which means Inductor may lack some checks on <code>bool</code> dtype. Maybe only a simple check can also cause the Inductor to throw the error.</li><li><strong><span style="color: #000000;">Locate the fault and fix it locally</span></strong>: After figuring out the issue, we can try to locate where we can add checks. In <a href="https://github.com/pytorch/pytorch/issues/143779" target="_blank" rel="noopener">#143779</a>, I find that we can try to add some checks for dtypes in <code>_meta_registration</code>. So I added an edge case check in <code>_meta_registration</code> for <code>torch.signbit</code> on processing <code>bool</code> dtype. In this case, I ran the original script, Inductor also throws the error like eager. After this, don’t forget the <span style="color: #ff0000;"><strong>Unit Test (UT)</strong></span>! Usually, you can write UT based on the original bug report to check whether the bug still occurs. More details about bug fix and UT can be found in this PR (<a href="https://github.com/pytorch/pytorch/pull/147666" target="_blank" rel="noopener">#147666</a>) which is a good example (I think).</li><li><strong><span style="color: #000000;">PR submission</span></strong>: After completing all the things above, you can submit your PR to the community. Different communities have different contribution guidelines. <a href="https://docs.pytorch.org/docs/stable/community/contribution_guide.html" target="_blank" rel="noopener">PyTorch contribution guidelines can be found here</a>. After submitting the PR, usually, code reviewers will come to review your PR very soon. Please take further actions based on their comments utils your PR is merged.  For example, they may think your fix is not a <em>good</em> fix and propose some better solutions. You need to modify your PR (add new commits) to satisfy their needs. Because they are professionals but you are amateurs. 🙂</li></ol><p>OK. Now I believe your PR is going to be merged. It’s so cool you contribute to the open-source community. Thank you for your contribution!</p>						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-92ce066 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="92ce066" data-element_type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-9aa1c04" data-id="9aa1c04" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-35eaaa9 elementor-widget elementor-widget-text-editor" data-id="35eaaa9" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+							<p><span style="color: #ff00ff;"><strong>[Conclusion]</strong></span>: That’s all, thank you for reading this far. Finshing a blog is really tiring for me (I will continue improving). Feel free to contact me (shaoyuyoung@gmail.com) at any time! <strong><span style="color: #ff0000;">Let’s fight for a better tomorrow!</span></strong></p>						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+				</div><!-- .entry-content -->
+		
+				<div class="entry-meta entry-meta-bottom">
+					<div class="date-author">
+			<span class="entry-date"><a href="https://shaoyuyoung.github.io/ai-infra-testing-2/" rel="bookmark"><i class="fa fa-fw fa-clock-o"></i> <time class="entry-date" datetime="2025-05-21T10:59:26+08:00">2025年5月21日</time></a></span><span class="author vcard"><a class="url fn n" href="https://shaoyuyoung.github.io/author/shaoyuyoung/" rel="author"><i class="fa fa-fw fa-user"></i> shaoyuyoung</a></span> 			</div>
+						<!-- Share Buttons -->
+			<div class="entry-share btn-group share-buttons">
+				        <a href="https://www.facebook.com/sharer/sharer.php?u=https://shaoyuyoung.github.io/ai-infra-testing-2/" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;" class="btn" target="_blank" title="Share on Facebook">
+            <i class="fa fa-facebook"></i>
+        </a>
+        <a href="https://twitter.com/share?url=https://shaoyuyoung.github.io/ai-infra-testing-2/" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;" class="btn" target="_blank" title="Share on Twitter">
+            <i class="fa fa-twitter"></i>
+        </a>
+        <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://shaoyuyoung.github.io/ai-infra-testing-2/" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" class="btn" title="Share on LinkedIn">
+            <i class="fa fa-linkedin"></i>
+        </a>
+        <a href="http://www.digg.com/submit?url=https://shaoyuyoung.github.io/ai-infra-testing-2/" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" class="btn" title="Share on Digg">
+            <i class="fa fa-digg"></i>
+        </a>
+    			</div>
+		<!-- /Share Buttons -->
+				</div>
+				<div class="post-tags">
+					</div>
+	</div>
+</article><!-- #post-## -->
+			<nav class="navigation post-navigation clearfix">
+				<div class="nav-links">
+					<a href="https://shaoyuyoung.github.io/ai-infra-testing-1/" rel="prev"><span class="meta-nav"> 🛠️AI Infra Testing①: PyTorch model introduction, debugging, and compiler correctness</span></a><a href="https://shaoyuyoung.github.io/fuel/" rel="next"><span class="meta-nav"> May the Feedback Be with You! (愿反馈与你同在)</span></a>				</div>
+				<!-- .nav-links -->
+			</nav><!-- .navigation -->
+				</div>
+	</div>
+</div>
+  
+        </div>
+        
+	<div id="blog-sidebar" class="blog-sidebar hidden-sidebar">
+		<div class="sidebar-toggle">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+		<div class="blog-sidebar-content clearfix">
+			<div class="sidebar-item"><form role="search" method="get" class="search-form" action="https://shaoyuyoung.github.io/">
+				<label>
+					<span class="screen-reader-text">搜索：</span>
+					<input type="search" class="search-field" placeholder="搜索…" value="" name="s">
+				</label>
+				<input type="submit" class="search-submit" value="搜索">
+			</form></div>
+		<div class="sidebar-item">
+		<div class="sidebar-title"><h4>近期文章</h4></div>
+		<ul>
+											<li>
+					<a href="https://shaoyuyoung.github.io/moments/">🌠Moments</a>
+									</li>
+											<li>
+					<a href="https://shaoyuyoung.github.io/fuel/">May the Feedback Be with You! (愿反馈与你同在)</a>
+									</li>
+											<li>
+					<a href="https://shaoyuyoung.github.io/ai-infra-testing-2/" aria-current="page">🛠️AI Infra Testing②: How to draft a good bug report for open-source community?</a>
+									</li>
+											<li>
+					<a href="https://shaoyuyoung.github.io/ai-infra-testing-1/">🛠️AI Infra Testing①: PyTorch model introduction, debugging, and compiler correctness</a>
+									</li>
+					</ul>
+
+		</div><div class="sidebar-item"><div class="sidebar-title"><h4>近期评论</h4></div><ul id="recentcomments"></ul></div>		</div>
+	</div>
+    </div>
+	<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"\/*"},{"not":{"href_matches":["\/wp-*.php","\/wp-admin\/*","\/wp-content\/uploads\/*","\/wp-content\/*","\/wp-content\/plugins\/*","\/wp-content\/themes\/breezycv\/*","\/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+			<script type='text/javascript'>
+				const lazyloadRunObserver = () => {
+					const lazyloadBackgrounds = document.querySelectorAll( `.e-con.e-parent:not(.e-lazyloaded)` );
+					const lazyloadBackgroundObserver = new IntersectionObserver( ( entries ) => {
+						entries.forEach( ( entry ) => {
+							if ( entry.isIntersecting ) {
+								let lazyloadBackground = entry.target;
+								if( lazyloadBackground ) {
+									lazyloadBackground.classList.add( 'e-lazyloaded' );
+								}
+								lazyloadBackgroundObserver.unobserve( entry.target );
+							}
+						});
+					}, { rootMargin: '200px 0px 200px 0px' } );
+					lazyloadBackgrounds.forEach( ( lazyloadBackground ) => {
+						lazyloadBackgroundObserver.observe( lazyloadBackground );
+					} );
+				};
+				const events = [
+					'DOMContentLoaded',
+					'elementor/lazyload/observe',
+				];
+				events.forEach( ( event ) => {
+					document.addEventListener( event, lazyloadRunObserver );
+				} );
+			</script>
+			<link rel="stylesheet" id="prismjs_style-css" href="https://shaoyuyoung.github.io/wp-content/plugins/elementor-pro/assets/css/modules/code-highlight.min.css?ver=1.23.0" type="text/css" media="">
+<script type="text/javascript" id="jquery-lazyloadxt-js-extra">
+/* <![CDATA[ */
+var a3_lazyload_params = {"apply_images":"1","apply_videos":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/plugins/a3-lazy-load/assets/js/jquery.lazyloadxt.extra.min.js?ver=2.7.3" id="jquery-lazyloadxt-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/plugins/a3-lazy-load/assets/js/jquery.lazyloadxt.srcset.min.js?ver=2.7.3" id="jquery-lazyloadxt-srcset-js"></script>
+<script type="text/javascript" id="jquery-lazyloadxt-extend-js-extra">
+/* <![CDATA[ */
+var a3_lazyload_extend_params = {"edgeY":"0","horizontal_container_classnames":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/plugins/a3-lazy-load/assets/js/jquery.lazyloadxt.extend.js?ver=2.7.3" id="jquery-lazyloadxt-extend-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/themes/breezycv/js/modernizr.custom.js?ver=2.8.3" id="modernizr-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/themes/breezycv/js/bootstrap.min.js?ver=4.0.0" id="bootstrap-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/themes/breezycv/js/owl.carousel.min.js?ver=2.0" id="owl-carousel-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/themes/breezycv/js/perfect-scrollbar.min.js?ver=0.8.1" id="perfect-scrollbar-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/themes/breezycv/js/validator.js?ver=1.0" id="breezycv-jquery-validator-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-includes/js/imagesloaded.min.js?ver=5.0.0" id="imagesloaded-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/themes/breezycv/js/jquery.shuffle.min.js?ver=3.1.1" id="shuffle-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-includes/js/masonry.min.js?ver=4.2.2" id="masonry-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/themes/breezycv/js/jquery.magnific-popup.min.js?ver=1.2.0" id="magnific-popup-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/themes/breezycv/js/mutate.events.min.js?ver=1.0.0" id="events-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/themes/breezycv/js/mutate.min.js?ver=1.0.0" id="mutate-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/themes/breezycv/js/main.js?ver=1.5.6" id="breezycv-jquery-main-js"></script>
+<script type="text/javascript" id="breezycv-jquery-main-js-after">
+/* <![CDATA[ */
+var ajaxurl = "https://shaoyuyoung.github.io/wp-admin/admin-ajax.php";
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?ver=2.0" id="js-recaptcha-js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-core.min.js?ver=1.23.0" id="prismjs_core-js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/plugins/autoloader/prism-autoloader.min.js?ver=1.23.0" id="prismjs_loader-js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/plugins/normalize-whitespace/prism-normalize-whitespace.min.js?ver=1.23.0" id="prismjs_normalize-js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/plugins/line-numbers/prism-line-numbers.min.js?ver=1.23.0" id="prismjs_line_numbers-js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/plugins/line-highlight/prism-line-highlight.min.js?ver=1.23.0" id="prismjs_line_highlight-js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/plugins/toolbar/prism-toolbar.min.js?ver=1.23.0" id="prismjs_toolbar-js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js?ver=1.23.0" id="prismjs_copy_to_clipboard-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js?ver=3.23.3" id="elementor-pro-webpack-runtime-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js?ver=3.23.3" id="elementor-webpack-runtime-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/plugins/elementor/assets/js/frontend-modules.min.js?ver=3.23.3" id="elementor-frontend-modules-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-includes/js/dist/hooks.min.js?ver=4d63a3d491d11ffd8ac6" id="wp-hooks-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-includes/js/dist/i18n.min.js?ver=5e580eb46a90c2b997e6" id="wp-i18n-js"></script>
+<script type="text/javascript" id="wp-i18n-js-after">
+/* <![CDATA[ */
+wp.i18n.setLocaleData( { 'text direction\u0004ltr': [ 'ltr' ] } );
+/* ]]> */
+</script>
+<script type="text/javascript" id="elementor-pro-frontend-js-before">
+/* <![CDATA[ */
+var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/shaoyuyoung.github.io\/wp-admin\/admin-ajax.php","nonce":"6636573d80","urls":{"assets":"https:\/\/shaoyuyoung.github.io\/wp-content\/plugins\/elementor-pro\/assets\/","rest":"https:\/\/shaoyuyoung.github.io\/wp-json\/"},"shareButtonsNetworks":{"facebook":{"title":"Facebook","has_counter":true},"twitter":{"title":"Twitter"},"linkedin":{"title":"LinkedIn","has_counter":true},"pinterest":{"title":"Pinterest","has_counter":true},"reddit":{"title":"Reddit","has_counter":true},"vk":{"title":"VK","has_counter":true},"odnoklassniki":{"title":"OK","has_counter":true},"tumblr":{"title":"Tumblr"},"digg":{"title":"Digg"},"skype":{"title":"Skype"},"stumbleupon":{"title":"StumbleUpon","has_counter":true},"mix":{"title":"Mix"},"telegram":{"title":"Telegram"},"pocket":{"title":"Pocket","has_counter":true},"xing":{"title":"XING","has_counter":true},"whatsapp":{"title":"WhatsApp"},"email":{"title":"Email"},"print":{"title":"Print"},"x-twitter":{"title":"X"},"threads":{"title":"Threads"}},"facebook_sdk":{"lang":"zh_CN","app_id":""},"lottie":{"defaultAnimationUrl":"https:\/\/shaoyuyoung.github.io\/wp-content\/plugins\/elementor-pro\/modules\/lottie\/assets\/animations\/default.json"}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/plugins/elementor-pro/assets/js/frontend.min.js?ver=3.23.3" id="elementor-pro-frontend-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/plugins/elementor/assets/lib/waypoints/waypoints.min.js?ver=4.0.2" id="elementor-waypoints-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-includes/js/jquery/ui/core.min.js?ver=1.13.3" id="jquery-ui-core-js"></script>
+<script type="text/javascript" id="elementor-frontend-js-before">
+/* <![CDATA[ */
+var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false,"isScriptDebug":false},"i18n":{"shareOnFacebook":"\u5728\u8138\u4e66\u4e0a\u5206\u4eab","shareOnTwitter":"\u5206\u4eab\u5230Twitter","pinIt":"\u9489\u4f4f","download":"\u4e0b\u8f7d","downloadImage":"\u4e0b\u8f7d\u56fe\u7247","fullscreen":"\u5168\u5c4f","zoom":"\u7f29\u653e","share":"\u5206\u4eab","playVideo":"\u64ad\u653e\u89c6\u9891","previous":"\u4e0a\u4e00\u9875","next":"\u4e0b\u4e00\u9875","close":"\u5173\u95ed","a11yCarouselWrapperAriaLabel":"\u5e7b\u706f\u7247 | \u6c34\u5e73\u6eda\u52a8\uff1a\u5de6\u7bad\u5934\u548c\u53f3\u7bad\u5934","a11yCarouselPrevSlideMessage":"\u4e0a\u4e00\u5f20\u5e7b\u706f\u7247","a11yCarouselNextSlideMessage":"\u4e0b\u4e00\u5f20\u5e7b\u706f\u7247","a11yCarouselFirstSlideMessage":"\u8fd9\u662f\u7b2c\u4e00\u5f20\u5e7b\u706f\u7247","a11yCarouselLastSlideMessage":"\u8fd9\u662f\u6700\u540e\u4e00\u5f20\u5e7b\u706f\u7247","a11yCarouselPaginationBulletMessage":"\u8f6c\u5230\u5e7b\u706f\u7247"},"is_rtl":false,"breakpoints":{"xs":0,"sm":480,"md":768,"lg":1025,"xl":1440,"xxl":1600},"responsive":{"breakpoints":{"mobile":{"label":"\u624b\u673a\u7eb5\u5411","value":767,"default_value":767,"direction":"max","is_enabled":true},"mobile_extra":{"label":"\u624b\u673a\u6a2a\u5411","value":880,"default_value":880,"direction":"max","is_enabled":false},"tablet":{"label":"\u5e73\u677f\u7535\u8111\u7eb5\u5411","value":1024,"default_value":1024,"direction":"max","is_enabled":true},"tablet_extra":{"label":"\u5e73\u677f\u7535\u8111\u6a2a\u5411","value":1200,"default_value":1200,"direction":"max","is_enabled":false},"laptop":{"label":"\u7b14\u8bb0\u672c\u7535\u8111","value":1366,"default_value":1366,"direction":"max","is_enabled":false},"widescreen":{"label":"\u5168\u5bbd\u5c4f","value":2400,"default_value":2400,"direction":"min","is_enabled":false}}},"version":"3.23.3","is_static":false,"experimentalFeatures":{"e_font_icon_svg":true,"container_grid":true,"e_swiper_latest":true,"e_nested_atomic_repeaters":true,"e_onboarding":true,"theme_builder_v2":true,"home_screen":true,"ai-layout":true,"landing-pages":true,"e_lazyload":true,"display-conditions":true,"form-submissions":true,"taxonomy-filter":true},"urls":{"assets":"https:\/\/shaoyuyoung.github.io\/wp-content\/plugins\/elementor\/assets\/","ajaxurl":"https:\/\/shaoyuyoung.github.io\/wp-admin\/admin-ajax.php"},"nonces":{"floatingButtonsClickTracking":"927b2a48e4"},"swiperClass":"swiper","settings":{"page":[],"editorPreferences":[]},"kit":{"global_image_lightbox":"yes","active_breakpoints":["viewport_mobile","viewport_tablet"],"lightbox_enable_counter":"yes","lightbox_enable_fullscreen":"yes","lightbox_enable_zoom":"yes","lightbox_enable_share":"yes","lightbox_title_src":"title","lightbox_description_src":"description"},"post":{"id":1199,"title":"%F0%9F%9B%A0%EF%B8%8FAI%20Infra%20Testing%E2%91%A1%3A%20How%20to%20draft%20a%20good%20bug%20report%20for%20open-source%20community%3F%20%E2%80%93%20shaoyuyang","excerpt":"","featuredImage":"https:\/\/shaoyuyoung.github.io\/wp-content\/uploads\/2025\/04\/AI-Infra-Testing-2-1024x409.png"}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/plugins/elementor/assets/js/frontend.min.js?ver=3.23.3" id="elementor-frontend-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js?ver=3.23.3" id="pro-elements-handlers-js"></script>
+<script type="text/javascript" src="https://shaoyuyoung.github.io/wp-content/plugins/breezycv-widgets/shortcodes/assets/js/scripts.js?ver=1" id="breezycv_scripts-js"></script>
+</body>
+</html>
